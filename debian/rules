@@ -1,4 +1,11 @@
 #!/usr/bin/make -f
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_CFLAGS_MAINT_APPEND = -DNO_SYSTEM -Wall -DUSE_GETNAMEINFO=1 -DUSE_GETIFADDRS=1 -fcommon
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,-z,defs
+
 %:
 	dh $@
+
+override_dh_auto_install:
+	dh_auto_install -- DESTDIR=$(CURDIR)/debian/iftop
